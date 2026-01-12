@@ -32,8 +32,31 @@ st.title("🏋️‍♂️ 哩來練 (Li-Lai-Lian) AI 教練")
 st.markdown("### 拍個照、上傳截圖，或是直接跟我說！")
 
 # 設定 Gemini 模型
-if api_key:
-    genai.configure(api_key=api_key)
+# --- 修改後的設定區塊 ---
+    # 1. 先列出所有可用模型 (除錯用)
+    if st.checkbox("🔍 顯示可用模型列表 (除錯用)"):
+        st.write("正在查詢您的 API Key 支援哪些模型...")
+        try:
+            for m in genai.list_models():
+                if 'generateContent' in m.supported_generation_methods:
+                    st.code(m.name)
+        except Exception as e:
+            st.error(f"無法列出模型，可能是 API Key 有誤：{e}")
+
+    # 2. 設定模型 (嘗試使用特定版本)
+    # 我們改用最完整的名稱，避免簡稱失效
+    try:
+        sys_instruction = """
+        Role: 你是 "哩來練 (Li-Lai-Lian)"... (省略，維持原本的 Prompt 不變) ...
+        """
+        
+        # --- 關鍵修改：改用更精確的模型名稱 ---
+        model = genai.GenerativeModel(
+            model_name="gemini-1.5-flash-latest", # 嘗試加上 -latest
+            system_instruction=sys_instruction
+        )
+    except Exception as e:
+        st.error(f"模型設定失敗：{e}")
     
     # 這裡就是我們剛剛設計的 System Instruction
     sys_instruction = """
@@ -132,3 +155,4 @@ if api_key:
 
 else:
     st.warning("👈 請先在左側側邊欄輸入你的 API Key 才能開始使用喔！")
+
