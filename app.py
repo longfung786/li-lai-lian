@@ -96,7 +96,7 @@ else:
     # 如果這裡還是 404，請把下面的 "gemini-1.5-flash" 改成診斷工具裡看到的名稱
     try:
         model = genai.GenerativeModel(
-            model_name="gemini-1.5-flash", 
+            model_name="gemini-3-flash-preview", 
             system_instruction=sys_instruction
         )
     except Exception as e:
@@ -167,3 +167,4 @@ else:
 
             except Exception as e:
                 st.error(f"發生連線錯誤 (請檢查診斷工具): {e}")
+
