@@ -63,7 +63,7 @@ if api_key:
     Tone: 台灣繁體中文，幽默，減脂期嚴格，增肌期鼓勵。
     """
     
-    model = genai.GenerativeModel(model_name="gemini-1.5-pro", system_instruction=sys_instruction)
+    model = genai.GenerativeModel(model_name="gemini-1.5-flash", system_instruction=sys_instruction)
 
     # 輸入區塊
     col1, col2 = st.columns([1, 1])
